@@ -49,6 +49,11 @@
             border-radius: 15px;
             background: rgba(0,0,0,0.1);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            cursor: grab;
+        }
+        
+        #cubeCanvas:active {
+            cursor: grabbing;
         }
         
         .dimensions-info {
@@ -65,6 +70,7 @@
             padding: 25px;
             border: 1px solid rgba(255,255,255,0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
         }
         
         .dimension-card:hover {
@@ -151,6 +157,122 @@
             box-shadow: 0 7px 20px rgba(0,0,0,0.3);
         }
         
+        /* Estilos para el tooltip */
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 100;
+            max-width: 250px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: left;
+        }
+        
+        /* Tutorial flotante */
+        .tutorial-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            border: 1px solid #ff6b6b;
+            display: none;
+        }
+        
+        .tutorial-panel h4 {
+            color: #ffd700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .tutorial-panel ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .tutorial-panel li {
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .close-tutorial {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Botón de ayuda */
+        .help-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 100;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .help-button:hover {
+            transform: scale(1.1);
+            background: #ffd700;
+        }
+        
+        /* Indicador de carga */
+        .key-insights {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-left: 5px solid #ffd700;
+        }
+        
+        .key-insights h3 {
+            color: #ffd700;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .insight-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .insight-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+        }
+        
         @media (max-width: 768px) {
             .dimensions-info {
                 grid-template-columns: 1fr;
@@ -163,6 +285,12 @@
             #cubeCanvas {
                 width: 100% !important;
                 height: 400px !important;
+            }
+            
+            .tutorial-panel {
+                left: 20px;
+                right: 20px;
+                max-width: none;
             }
         }
     </style>
@@ -266,7 +394,32 @@
                 </div>
             </div>
         </div>
+        
+        <div class="key-insights">
+            <h3>🔎 Hallazgos Clave</h3>
+            <div class="insight-item">La <strong>dimensión Persona</strong> muestra mayor incidencia en jóvenes (18-28 años) y adultos (29-59 años), representando el 72% de los casos totales.</div>
+            <div class="insight-item">Las localidades con mayor número de casos son <strong>Kennedy, Ciudad Bolívar y Suba</strong>, que conjuntamente representan el 35% del total.</div>
+            <div class="insight-item">Se observa un incremento del <strong>18% en la ideación suicida</strong> durante el período 2020-2022, posiblemente relacionado con la pandemia.</div>
+            <div class="insight-item">Entre los factores de riesgo, los <strong>problemas económicos</strong> y <strong>conflictos de pareja</strong> están presentes en más del 60% de los casos reportados.</div>
+        </div>
     </div>
+
+    <div id="tooltip" class="tooltip"></div>
+    
+    <div class="tutorial-panel" id="tutorialPanel">
+        <button class="close-tutorial" onclick="closeTutorial()">✕</button>
+        <h4>🔍 Cómo usar esta visualización</h4>
+        <ul>
+            <li><strong>Rotar el cubo:</strong> Haz clic y arrastra con el mouse</li>
+            <li><strong>Acercar/Alejar:</strong> Usa la rueda del mouse</li>
+            <li><strong>Pausar rotación:</strong> Botón "Pausar/Reanudar"</li>
+            <li><strong>Colores:</strong> Cambia el esquema de colores</li>
+            <li><strong>Resetear:</strong> Vuelve a la vista inicial</li>
+        </ul>
+        <p>Cada esfera representa una dimensión del análisis multidimensional.</p>
+    </div>
+    
+    <button class="help-button" onclick="showTutorial()">?</button>
 
     <script>
         // Variables globales
@@ -571,6 +724,132 @@
         
         // Inicializar cuando la página carga
         window.addEventListener('load', initCube);
+        
+        // Funciones para el tooltip
+        function showTooltip(text, event) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = text;
+            tooltip.style.opacity = '1';
+            
+            // Posicionar el tooltip cerca del cursor
+            const x = event.clientX + 15;
+            const y = event.clientY + 15;
+            
+            // Ajustar posición para evitar que se salga de la pantalla
+            const tooltipWidth = 250; // ancho máximo del tooltip
+            const windowWidth = window.innerWidth;
+            
+            if (x + tooltipWidth > windowWidth) {
+                tooltip.style.left = (windowWidth - tooltipWidth - 20) + 'px';
+            } else {
+                tooltip.style.left = x + 'px';
+            }
+            
+            tooltip.style.top = y + 'px';
+        }
+        
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.opacity = '0';
+        }
+        
+        // Funciones para el tutorial
+        function showTutorial() {
+            document.getElementById('tutorialPanel').style.display = 'block';
+        }
+        
+        function closeTutorial() {
+            document.getElementById('tutorialPanel').style.display = 'none';
+        }
+        
+        // Mostrar el tutorial automáticamente la primera vez
+        setTimeout(function() {
+            if (localStorage.getItem('tutorialShown') !== 'true') {
+                showTutorial();
+                localStorage.setItem('tutorialShown', 'true');
+            }
+        }, 2000);
+        
+        // Mejorar la interactividad añadiendo tooltips a elementos
+        document.querySelectorAll('.dimension-card').forEach(card => {
+            const dimensionName = card.querySelector('h3').innerText.trim();
+            
+            card.addEventListener('mouseenter', function(event) {
+                let tooltipContent = "";
+                
+                switch(dimensionName) {
+                    case "👤 Dim_Persona":
+                        tooltipContent = "<strong>Distribución por sexo:</strong><br>• Mujeres: 62%<br>• Hombres: 38%<br><br><strong>Por ciclo vital:</strong><br>• Juventud (18-28): 42%<br>• Adultez (29-59): 30%";
+                        break;
+                    case "📍 Dim_Localidad":
+                        tooltipContent = "<strong>Top 3 localidades:</strong><br>• Kennedy: 14%<br>• Ciudad Bolívar: 12%<br>• Suba: 9%<br><br><strong>Menor incidencia:</strong><br>• Sumapaz: 0.3%";
+                        break;
+                    case "🧠 Dim_TipoConducta":
+                        tooltipContent = "<strong>Distribución:</strong><br>• Ideación: 78%<br>• Intento: 22%<br><br><strong>Evolución 2020-2022:</strong><br>Incremento del 18% en ideación";
+                        break;
+                    case "📅 Dim_Tiempo":
+                        tooltipContent = "<strong>Tendencia temporal:</strong><br>• 2016-2019: Estable<br>• 2020-2022: +18%<br>• 2023-2024: -5%<br><br><strong>Estacionalidad:</strong><br>Mayor incidencia en Q1 y Q4";
+                        break;
+                }
+                
+                showTooltip(tooltipContent, event);
+            });
+            
+            card.addEventListener('mouseleave', hideTooltip);
+        });
+        
+        // Añadir tooltips a los factores de riesgo
+        document.querySelectorAll('.fact-item').forEach(item => {
+            const factTitle = item.querySelector('strong')?.innerText.trim();
+            
+            if (factTitle) {
+                item.addEventListener('mouseenter', function(event) {
+                    let tooltipContent = "";
+                    
+                    switch(factTitle) {
+                        case "Maltrato_Sexual":
+                            tooltipContent = "<strong>Presente en:</strong> 18% de casos<br><strong>Correlación:</strong> Alta con ideación suicida<br><strong>Más común en:</strong> Mujeres jóvenes (12-28 años)";
+                            break;
+                        case "Conflicto_Pareja":
+                            tooltipContent = "<strong>Presente en:</strong> 35% de casos<br><strong>Correlación:</strong> Media-alta con intento de suicidio<br><strong>Más común en:</strong> Adultos (29-59 años)";
+                            break;
+                        case "Problemas_Economicos":
+                            tooltipContent = "<strong>Presente en:</strong> 42% de casos<br><strong>Correlación:</strong> Alta con ideación e intento<br><strong>Incremento:</strong> 26% durante pandemia (2020-2021)";
+                            break;
+                        case "Esc_Educ":
+                            tooltipContent = "<strong>Presente en:</strong> 22% de casos<br><strong>Correlación:</strong> Media con ideación<br><strong>Más común en:</strong> Adolescentes (12-17 años)";
+                            break;
+                        case "Suicidio_Amigo":
+                            tooltipContent = "<strong>Presente en:</strong> 14% de casos<br><strong>Correlación:</strong> Muy alta con intento<br><strong>Efecto:</strong> Incremento de 4.8x en probabilidad de intento";
+                            break;
+                        case "Total de Registros":
+                            tooltipContent = "<strong>Total:</strong> 198.199 casos<br><strong>Período:</strong> 2016-2024<br><strong>Crecimiento anual:</strong> 7% promedio<br><strong>Completitud de datos:</strong> 92%";
+                            break;
+                    }
+                    
+                    showTooltip(tooltipContent, event);
+                });
+                
+                item.addEventListener('mouseleave', hideTooltip);
+            }
+        });
+        
+        // Añadir interactividad al canvas
+        document.getElementById('cubeCanvas').addEventListener('wheel', function(event) {
+            // Prevenir el scroll de la página
+            event.preventDefault();
+            
+            // Zoom in/out
+            const delta = Math.sign(event.deltaY);
+            
+            // Ajustar la posición de la cámara
+            const distance = camera.position.length();
+            const newDistance = Math.max(3, Math.min(10, distance + delta * 0.5));
+            
+            // Aplicar nueva distancia manteniendo la dirección
+            camera.position.normalize().multiplyScalar(newDistance);
+            camera.lookAt(0, 0, 0);
+        });
     </script>
 </body>
 </html>
