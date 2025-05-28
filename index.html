@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cubo Multidimensional - Conducta Suicida</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            max-width: 1200px;
+            margin: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cube-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 600px;
+            perspective: 1000px;
+            margin: 40px 0;
+        }
+        
+        .cube {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 20s infinite linear;
+        }
+        
+        @keyframes rotateCube {
+            0% { transform: rotateX(15deg) rotateY(0deg); }
+            25% { transform: rotateX(15deg) rotateY(90deg); }
+            50% { transform: rotateX(15deg) rotateY(180deg); }
+            75% { transform: rotateX(15deg) rotateY(270deg); }
+            100% { transform: rotateX(15deg) rotateY(360deg); }
+        }
+        
+        .face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 3px solid #2c3e50;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            backdrop-filter: blur(5px);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        .front {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.8), rgba(167, 30, 42, 0.8));
+            transform: translateZ(150px);
+        }
+        
+        .back {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(0, 86, 179, 0.8));
+            transform: rotateY(180deg) translateZ(150px);
+        }
+        
+        .right {
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.8), rgba(25, 135, 84, 0.8));
+            transform: rotateY(90deg) translateZ(150px);
+        }
+        
+        .left {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.8), rgba(255, 143, 0, 0.8));
+            transform: rotateY(-90deg) translateZ(150px);
+        }
+        
+        .top {
+            background: linear-gradient(135deg, rgba(108, 117, 125, 0.8), rgba(73, 80, 87, 0.8));
+            transform: rotateX(90deg) translateZ(150px);
+        }
+        
+        .bottom {
+            background: linear-gradient(135deg, rgba(111, 66, 193, 0.8), rgba(102, 16, 242, 0.8));
+            transform: rotateX(-90deg) translateZ(150px);
+        }
+        
+        .dimensions-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .dimension-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 2px solid #dee2e6;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dimension-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .dimension-card h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #007bff;
+        }
+        
+        .dimension-values {
+            color: #6c757d;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        
+        .metrics-section {
+            background: linear-gradient(145deg, #d4edda, #c3e6cb);
+            border: 3px solid #28a745;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .metrics-section h3 {
+            color: #155724;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .metric-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #155724;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .cube-explanation {
+            background: linear-gradient(145deg, #fff3cd, #ffecb5);
+            border: 3px solid #ffc107;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            color: #856404;
+        }
+        
+        .cube-explanation h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .pause-btn {
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .pause-btn:hover {
+            background: linear-gradient(145deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Cubo Multidimensional OLAP</h1>
+        <p style="text-align: center; color: #6c757d; font-size: 1.1em; margin-bottom: 30px;">
+            Análisis Multidimensional de Conducta Suicida en Bogotá
+        </p>
+        
+        <div class="cube-container">
+            <div class="cube" id="cube">
+                <div class="face front">
+                    <div>
+                        <strong>📊 MÉTRICAS</strong><br><br>
+                        • Total de Casos<br>
+                        • Intentos de Suicidio<br>
+                        • Ideación Suicida<br>
+                        • Factores de Riesgo<br>
+                        • Prevalencia por Grupo
+                    </div>
+                </div>
+                <div class="face back">
+                    <div>
+                        <strong>👤 DIMENSIÓN PERSONA</strong><br><br>
+                        • Sexo (Hombre/Mujer)<br>
+                        • Ciclo Vital<br>
+                        • Nivel Educativo<br>
+                        • Población Diferencial
+                    </div>
+                </div>
+                <div class="face right">
+                    <div>
+                        <strong>📍 DIMENSIÓN LOCALIDAD</strong><br><br>
+                        20 Localidades de Bogotá:<br>
+                        • Usaquén, Chapinero<br>
+                        • Santa Fe, San Cristóbal<br>
+                        • Usme, Tunjuelito<br>
+                        • Bosa, Kennedy, etc.
+                    </div>
+                </div>
+                <div class="face left">
+                    <div>
+                        <strong>📅 DIMENSIÓN TIEMPO</strong><br><br>
+                        Años de Análisis:<br>
+                        • 2016 - 2017<br>
+                        • 2018 - 2019<br>
+                        • 2020 - 2021<br>
+                        • 2022 - 2024
+                    </div>
+                </div>
+                <div class="face top">
+                    <div>
+                        <strong>🧠 DIMENSIÓN CONDUCTA</strong><br><br>
+                        Tipos de Conducta:<br>
+                        • Intento de Suicidio<br>
+                        • Ideación Suicida
+                    </div>
+                </div>
+                <div class="face bottom">
+                    <div>
+                        <strong>⚠️ FACTORES DE RIESGO</strong><br><br>
+                        • Maltrato Sexual<br>
+                        • Conflicto de Pareja<br>
+                        • Problemas Económicos<br>
+                        • Escolaridad<br>
+                        • Suicidio de Amigo
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="pause-btn" onclick="toggleAnimation()">⏸️ Pausar/Reanudar Rotación</button>
+            <button class="pause-btn" onclick="window.location.href='cubo4d.html'" style="margin-left: 10px; background: linear-gradient(145deg, #764ba2, #667eea);">🧊 Ver Visualización 4D</button>
+        </div>
+        
+        <div class="dimensions-info">
+            <div class="dimension-card">
+                <h3>👤 Dimensión Persona</h3>
+                <div class="dimension-values">
+                    <strong>Sexo:</strong> Hombre, Mujer<br>
+                    <strong>Ciclo Vital:</strong> Primera Infancia (0-5), Infancia (6-11), Adolescencia (12-17), Juventud (18-28), Adultez (29-59), Vejez (>60)<br>
+                    <strong>Nivel Educativo:</strong> 12 categorías desde "No fue a la escuela" hasta "Postgrado completo"<br>
+                    <strong>Población Diferencial:</strong> LGBTIQ+, Madre Cabeza de Hogar, etc.
+                </div>
+            </div>
+            
+            <div class="dimension-card">
+                <h3>📍 Dimensión Localidad</h3>
+                <div class="dimension-values">
+                    <strong>20 Localidades de Bogotá:</strong><br>
+                    Usaquén, Chapinero, Santa Fe, San Cristóbal, Usme, Tunjuelito, Bosa, Kennedy, Fontibón, Engativá, Suba, Barrios Unidos, Teusaquillo, Los Mártires, Antonio Nariño, Puente Aranda, La Candelaria, Rafael Uribe Uribe, Ciudad Bolívar, Sumapaz
+                </div>
+            </div>
+            
+            <div class="dimension-card">
+                <h3>📅 Dimensión Tiempo</h3>
+                <div class="dimension-values">
+                    <strong>Período de Análisis:</strong><br>
+                    2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024<br>
+                    <em>Permite análisis de tendencias temporales y estacionalidad</em>
+                </div>
+            </div>
+            
+            <div class="dimension-card">
+                <h3>🧠 Dimensión Tipo de Conducta</h3>
+                <div class="dimension-values">
+                    <strong>Clasificación:</strong><br>
+                    • <strong>Intento de Suicidio:</strong> Acción ejecutada<br>
+                    • <strong>Ideación Suicida:</strong> Pensamientos suicidas<br>
+                    <em>Permite diferenciar entre comportamientos y pensamientos</em>
+                </div>
+            </div>
+        </div>
+        
+        <div class="metrics-section">
+            <h3>📊 Métricas y Medidas del Cubo</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">Total de Casos<br><small>198.199 registros</small></div>
+                <div class="metric-item">Conteo por Localidad<br><small>Agregación</small></div>
+                <div class="metric-item">Prevalencia por Sexo<br><small>Porcentajes</small></div>
+                <div class="metric-item">Tendencia Temporal<br><small>Evolución anual</small></div>
+                <div class="metric-item">Factores de Riesgo<br><small>5 indicadores binarios</small></div>
+                <div class="metric-item">Distribución Etaria<br><small>Por ciclo vital</small></div>
+            </div>
+        </div>
+        
+        <div class="cube-explanation">
+            <h3>🔍 Explicación del Cubo Multidimensional</h3>
+            <p><strong>Un cubo OLAP (Online Analytical Processing)</strong> es una estructura de datos multidimensional que permite analizar información desde múltiples perspectivas simultáneamente.</p>
+            
+            <p><strong>En este caso:</strong></p>
+            <ul>
+                <li><strong>4 Dimensiones principales:</strong> Persona, Localidad, Tiempo, y Tipo de Conducta</li>
+                <li><strong>Tabla de Hechos central:</strong> Contiene las métricas y los 5 factores de riesgo</li>
+                <li><strong>Operaciones OLAP posibles:</strong>
+                    <ul>
+                        <li><em>Drill-down:</em> Profundizar en detalles (ej: de año a mes)</li>
+                        <li><em>Roll-up:</em> Agrupar datos (ej: de localidad a región)</li>
+                        <li><em>Slice:</em> Filtrar por una dimensión (ej: solo mujeres)</li>
+                        <li><em>Dice:</em> Filtrar por múltiples dimensiones</li>
+                        <li><em>Pivot:</em> Rotar perspectivas de análisis</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <p><strong>Ejemplos de análisis posibles:</strong></p>
+            <ul>
+                <li>¿Cómo ha evolucionado la ideación suicida en adolescentes de Chapinero entre 2020-2024?</li>
+                <li>¿Qué factores de riesgo son más prevalentes en mujeres adultas de Ciudad Bolívar?</li>
+                <li>¿Cuál es la correlación entre nivel educativo y tipo de conducta suicida por localidad?</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        let isPaused = false;
+        
+        function toggleAnimation() {
+            const cube = document.getElementById('cube');
+            if (isPaused) {
+                cube.style.animationPlayState = 'running';
+                isPaused = false;
+            } else {
+                cube.style.animationPlayState = 'paused';
+                isPaused = true;
+            }
+        }
+    </script>
+</body>
+</html>
