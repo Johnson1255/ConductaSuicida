@@ -273,6 +273,186 @@
             color: #ffd700;
         }
         
+        /* Estilos para el ejemplo de consulta */
+        .query-example {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-left: 5px solid #4ecdc4;
+        }
+        
+        .query-example h3 {
+            color: #4ecdc4;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .query-intro {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .query-selector {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .query-selector label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .select-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .query-selector select {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        
+        .query-selector select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+        
+        .query-visualization {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .query-code, .query-result {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .query-code h4, .query-result h4 {
+            margin-top: 0;
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+        
+        .query-code pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: 'Consolas', monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            color: #f8f8f8;
+        }
+        
+        .query-result table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        .query-result th, .query-result td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .query-result th {
+            background: rgba(0,0,0,0.3);
+            color: #4ecdc4;
+        }
+        
+        .query-result tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .data-definition {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .data-definition h4 {
+            margin-top: 0;
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+        
+        .data-component {
+            margin-bottom: 20px;
+        }
+        
+        .data-component:last-child {
+            margin-bottom: 0;
+        }
+        
+        .data-component strong {
+            color: #ffd700;
+        }
+        
+        .data-component ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        .data-component li {
+            margin-bottom: 8px;
+        }
+        
+        .operations-explanation {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .operations-explanation h4 {
+            margin-top: 0;
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+        
+        .operations-explanation ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        .operations-explanation li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-keyword {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        
+        .highlight-table {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .highlight-column {
+            color: #4ecdc4;
+            font-style: italic;
+        }
+        
         @media (max-width: 768px) {
             .dimensions-info {
                 grid-template-columns: 1fr;
@@ -291,6 +471,10 @@
                 left: 20px;
                 right: 20px;
                 max-width: none;
+            }
+            
+            .query-visualization {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -401,6 +585,130 @@
             <div class="insight-item">Las localidades con mayor número de casos son <strong>Kennedy, Ciudad Bolívar y Suba</strong>, que conjuntamente representan el 35% del total.</div>
             <div class="insight-item">Se observa un incremento del <strong>18% en la ideación suicida</strong> durante el período 2020-2022, posiblemente relacionado con la pandemia.</div>
             <div class="insight-item">Entre los factores de riesgo, los <strong>problemas económicos</strong> y <strong>conflictos de pareja</strong> están presentes en más del 60% de los casos reportados.</div>
+        </div>
+        
+        <div class="query-example">
+            <h3>🔍 Ejemplo de Consulta Multidimensional</h3>
+            <p class="query-intro">Una bodega de datos permite realizar consultas multidimensionales sobre la tabla de hechos usando varias dimensiones. A continuación, un ejemplo detallado:</p>
+            
+            <div class="query-selector">
+                <label for="dimension-select">Selecciona dimensiones para la consulta:</label>
+                <div class="select-container">
+                    <select id="dimension1" onchange="updateQueryExample()">
+                        <option value="persona">Dim_Persona</option>
+                        <option value="localidad">Dim_Localidad</option>
+                        <option value="tiempo">Dim_Tiempo</option>
+                        <option value="conducta">Dim_TipoConducta</option>
+                    </select>
+                    <select id="dimension2" onchange="updateQueryExample()">
+                        <option value="localidad">Dim_Localidad</option>
+                        <option value="persona">Dim_Persona</option>
+                        <option value="tiempo">Dim_Tiempo</option>
+                        <option value="conducta">Dim_TipoConducta</option>
+                    </select>
+                </div>
+                <div class="select-container">
+                    <select id="metric" onchange="updateQueryExample()">
+                        <option value="count">Conteo de Casos</option>
+                        <option value="percentage">Porcentaje del Total</option>
+                        <option value="risk_factor">Presencia de Factores de Riesgo</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="query-visualization">
+                <div class="query-code">
+                    <h4>Consulta SQL Equivalente:</h4>
+                    <pre id="sql-query">
+SELECT 
+    p.Ciclo_Vital,
+    l.Nombre_Localidad,
+    COUNT(*) as Total_Casos
+FROM 
+    Hechos_ConductaSuicida h
+JOIN 
+    Dim_Persona p ON h.ID_Persona = p.ID_Persona
+JOIN 
+    Dim_Localidad l ON h.ID_Localidad = l.ID_Localidad
+GROUP BY 
+    p.Ciclo_Vital,
+    l.Nombre_Localidad
+ORDER BY 
+    Total_Casos DESC;
+                    </pre>
+                </div>
+                
+                <div class="query-result">
+                    <h4>Resultado (Primeras 5 filas):</h4>
+                    <table id="result-table">
+                        <thead>
+                            <tr>
+                                <th>Ciclo_Vital</th>
+                                <th>Nombre_Localidad</th>
+                                <th>Total_Casos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Juventud (18-28)</td>
+                                <td>Kennedy</td>
+                                <td>11,587</td>
+                            </tr>
+                            <tr>
+                                <td>Juventud (18-28)</td>
+                                <td>Ciudad Bolívar</td>
+                                <td>9,874</td>
+                            </tr>
+                            <tr>
+                                <td>Adultez (29-59)</td>
+                                <td>Kennedy</td>
+                                <td>7,654</td>
+                            </tr>
+                            <tr>
+                                <td>Juventud (18-28)</td>
+                                <td>Suba</td>
+                                <td>6,435</td>
+                            </tr>
+                            <tr>
+                                <td>Adultez (29-59)</td>
+                                <td>Ciudad Bolívar</td>
+                                <td>5,912</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="data-definition">
+                <h4>Componentes del Modelo Multidimensional:</h4>
+                <div class="data-component">
+                    <strong>Tabla de Hechos (Hechos_ConductaSuicida):</strong>
+                    <ul>
+                        <li><strong>Medidas/Métricas:</strong> Contadores y valores numéricos (Total_Casos, Porcentajes)</li>
+                        <li><strong>Claves foráneas:</strong> ID_Persona, ID_Localidad, ID_Tiempo, ID_TipoConducta</li>
+                        <li><strong>Factores de riesgo:</strong> Variables binarias (0/1) que indican presencia de factores</li>
+                    </ul>
+                </div>
+                <div class="data-component">
+                    <strong>Tablas de Dimensiones:</strong>
+                    <ul>
+                        <li><strong>Dim_Persona:</strong> Atributos descriptivos (Sexo, Ciclo_Vital, Nivel_Educativo)</li>
+                        <li><strong>Dim_Localidad:</strong> Jerarquía geográfica (Localidad, UPZ, Barrio)</li>
+                        <li><strong>Dim_Tiempo:</strong> Jerarquía temporal (Año, Semestre, Trimestre, Mes)</li>
+                        <li><strong>Dim_TipoConducta:</strong> Clasificación del comportamiento</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="operations-explanation">
+                <h4>Operaciones Analíticas Posibles:</h4>
+                <ul>
+                    <li><strong>Drill Down:</strong> Aumentar el nivel de detalle (Ej: de Localidad a UPZ)</li>
+                    <li><strong>Roll Up:</strong> Disminuir el nivel de detalle (Ej: de Mes a Año)</li>
+                    <li><strong>Slice:</strong> Seleccionar un valor en una dimensión (Ej: Solo mujeres)</li>
+                    <li><strong>Dice:</strong> Seleccionar valores en múltiples dimensiones (Ej: Mujeres en Kennedy en 2022)</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -849,6 +1157,171 @@
             // Aplicar nueva distancia manteniendo la dirección
             camera.position.normalize().multiplyScalar(newDistance);
             camera.lookAt(0, 0, 0);
+        });
+        
+        // Función para actualizar el ejemplo de consulta multidimensional
+        function updateQueryExample() {
+            const dimension1 = document.getElementById('dimension1').value;
+            const dimension2 = document.getElementById('dimension2').value;
+            const metric = document.getElementById('metric').value;
+            
+            let sqlQuery = '';
+            let tableHeaders = '';
+            let tableRows = '';
+            
+            // Determinar qué campos mostrar basados en las dimensiones seleccionadas
+            const dimFields = {
+                persona: {
+                    table: 'p',
+                    joinClause: 'JOIN \n    Dim_Persona p ON h.ID_Persona = p.ID_Persona',
+                    field: 'p.Ciclo_Vital',
+                    displayName: 'Ciclo_Vital'
+                },
+                localidad: {
+                    table: 'l',
+                    joinClause: 'JOIN \n    Dim_Localidad l ON h.ID_Localidad = l.ID_Localidad',
+                    field: 'l.Nombre_Localidad',
+                    displayName: 'Nombre_Localidad'
+                },
+                tiempo: {
+                    table: 't',
+                    joinClause: 'JOIN \n    Dim_Tiempo t ON h.ID_Tiempo = t.ID_Tiempo',
+                    field: 't.Año',
+                    displayName: 'Año'
+                },
+                conducta: {
+                    table: 'c',
+                    joinClause: 'JOIN \n    Dim_TipoConducta c ON h.ID_TipoConducta = c.ID_TipoConducta',
+                    field: 'c.Tipo_Conducta',
+                    displayName: 'Tipo_Conducta'
+                }
+            };
+            
+            // Determinar qué métrica mostrar
+            const metricFields = {
+                count: {
+                    field: 'COUNT(*)',
+                    displayName: 'Total_Casos',
+                    values: ['11,587', '9,874', '7,654', '6,435', '5,912']
+                },
+                percentage: {
+                    field: 'ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2)',
+                    displayName: 'Porcentaje',
+                    values: ['5.85%', '4.98%', '3.86%', '3.25%', '2.98%']
+                },
+                risk_factor: {
+                    field: 'SUM(h.Problemas_Economicos) as Económicos, SUM(h.Conflicto_Pareja) as Pareja',
+                    displayName: 'Factores_Riesgo',
+                    values: ['4,872 / 3,782', '4,103 / 3,451', '3,280 / 2,945', '2,702 / 2,134', '2,541 / 2,067']
+                }
+            };
+            
+            // Construir la consulta SQL
+            let selectClause = 'SELECT \n    ' + dimFields[dimension1].field + ',\n    ' + dimFields[dimension2].field;
+            
+            if (metric === 'risk_factor') {
+                selectClause += ',\n    ' + metricFields[metric].field;
+            } else {
+                selectClause += ',\n    ' + metricFields[metric].field + ' as ' + metricFields[metric].displayName;
+            }
+            
+            let fromClause = 'FROM \n    Hechos_ConductaSuicida h';
+            let joinClauses = [];
+            
+            // Añadir las cláusulas JOIN necesarias
+            if (dimension1 !== dimension2) {
+                joinClauses.push(dimFields[dimension1].joinClause);
+                joinClauses.push(dimFields[dimension2].joinClause);
+            } else {
+                joinClauses.push(dimFields[dimension1].joinClause);
+            }
+            
+            let joinClause = joinClauses.join('\n');
+            
+            let groupByClause = 'GROUP BY \n    ' + dimFields[dimension1].field + ',\n    ' + dimFields[dimension2].field;
+            
+            let orderByClause = '';
+            if (metric === 'risk_factor') {
+                orderByClause = 'ORDER BY \n    Económicos DESC, Pareja DESC';
+            } else {
+                orderByClause = 'ORDER BY \n    ' + metricFields[metric].displayName + ' DESC';
+            }
+            
+            // Construir la consulta completa
+            sqlQuery = selectClause + '\n' + fromClause + '\n' + joinClause + '\n' + groupByClause + '\n' + orderByClause + ';';
+            
+            // Actualizar el código SQL en la página
+            document.getElementById('sql-query').textContent = sqlQuery;
+            
+            // Crear encabezados de tabla
+            if (metric === 'risk_factor') {
+                tableHeaders = `<tr>
+                    <th>${dimFields[dimension1].displayName}</th>
+                    <th>${dimFields[dimension2].displayName}</th>
+                    <th>Económicos</th>
+                    <th>Conflicto_Pareja</th>
+                </tr>`;
+                
+                // Crear filas de ejemplo para la tabla de resultados (primeras 5 filas)
+                const sampleData = getSampleData(dimension1, dimension2);
+                tableRows = '';
+                
+                for (let i = 0; i < 5 && i < sampleData.length; i++) {
+                    const [econ, pareja] = metricFields[metric].values[i].split(' / ');
+                    tableRows += `<tr>
+                        <td>${sampleData[i][0]}</td>
+                        <td>${sampleData[i][1]}</td>
+                        <td>${econ}</td>
+                        <td>${pareja}</td>
+                    </tr>`;
+                }
+            } else {
+                tableHeaders = `<tr>
+                    <th>${dimFields[dimension1].displayName}</th>
+                    <th>${dimFields[dimension2].displayName}</th>
+                    <th>${metricFields[metric].displayName}</th>
+                </tr>`;
+                
+                // Crear filas de ejemplo para la tabla de resultados (primeras 5 filas)
+                const sampleData = getSampleData(dimension1, dimension2);
+                tableRows = '';
+                
+                for (let i = 0; i < 5 && i < sampleData.length; i++) {
+                    tableRows += `<tr>
+                        <td>${sampleData[i][0]}</td>
+                        <td>${sampleData[i][1]}</td>
+                        <td>${metricFields[metric].values[i]}</td>
+                    </tr>`;
+                }
+            }
+            
+            // Actualizar la tabla de resultados
+            document.querySelector('#result-table thead').innerHTML = tableHeaders;
+            document.querySelector('#result-table tbody').innerHTML = tableRows;
+        }
+        
+        // Función para obtener datos de ejemplo basados en las dimensiones seleccionadas
+        function getSampleData(dim1, dim2) {
+            // Datos de ejemplo para cada dimensión
+            const dimensionData = {
+                persona: ['Juventud (18-28)', 'Juventud (18-28)', 'Adultez (29-59)', 'Juventud (18-28)', 'Adultez (29-59)'],
+                localidad: ['Kennedy', 'Ciudad Bolívar', 'Kennedy', 'Suba', 'Ciudad Bolívar'],
+                tiempo: ['2022', '2021', '2022', '2021', '2020'],
+                conducta: ['Ideación Suicida', 'Ideación Suicida', 'Intento de Suicidio', 'Ideación Suicida', 'Intento de Suicidio']
+            };
+            
+            // Crear pares de datos para las dimensiones seleccionadas
+            const result = [];
+            for (let i = 0; i < 5; i++) {
+                result.push([dimensionData[dim1][i], dimensionData[dim2][i]]);
+            }
+            
+            return result;
+        }
+        
+        // Inicializar el ejemplo de consulta
+        document.addEventListener('DOMContentLoaded', function() {
+            updateQueryExample();
         });
     </script>
 </body>
